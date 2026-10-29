@@ -1,0 +1,103 @@
+@import '../../styles/page.css';
+
+.ms-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ms-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 20px;
+  border-radius: var(--radius-lg);
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-line);
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+  box-shadow: var(--shadow-card);
+}
+
+/* 待确认：整行给一点暖色，暗示「还没完事」。不用彩色左边框 */
+.ms-row--pending {
+  border-color: rgba(255, 180, 84, 0.26);
+  background:
+    linear-gradient(180deg, rgba(255, 180, 84, 0.055), rgba(255, 255, 255, 0.028));
+}
+
+.ms-row__main {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.ms-row__title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-1);
+  overflow-wrap: anywhere;
+}
+
+.ms-row__title a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--dur) var(--ease);
+}
+
+.ms-row__title a:hover {
+  color: var(--accent);
+}
+
+.ms-row__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.ms-row__meta .mono {
+  font-size: 12.5px;
+  color: var(--text-2);
+}
+
+.ms-row__hint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--warning);
+}
+
+.ms-row__side {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: none;
+}
+
+.ms-row--skeleton {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  min-height: 92px;
+}
+
+.ms-row--skeleton:hover {
+  box-shadow: var(--shadow-card);
+}
+
+@media (max-width: 767px) {
+  .ms-row {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .ms-row__side {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

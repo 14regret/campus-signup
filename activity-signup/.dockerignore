@@ -1,0 +1,16 @@
+# 构建上下文里不需要的东西：不排除的话 .m2repo 会让上下文变成 500MB+
+target/
+.m2repo/
+.verify/
+.build-check/
+.stage*/
+.git/
+.gitignore
+.idea/
+.vscode/
+*.iml
+docs/
+*.md
+mvnw
+mvnw.cmd
+.mvn/

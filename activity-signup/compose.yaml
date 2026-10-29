@@ -1,0 +1,87 @@
+name: campus-signup
+
+services:
+  # ------------------------------------------------------------
+  # MySQL 8.4 LTS
+  # ------------------------------------------------------------
+  mysql:
+    image: mysql:8.4
+    container_name: campus-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root123456}
+      MYSQL_DATABASE: campus_signup
+      MYSQL_USER: campus
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-campus123}
+      TZ: Asia/Shanghai
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+      - --default-time-zone=+08:00
+    ports:
+      # 只绑回环，别把数据库暴露到局域网
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      # 注意 $$ 是 compose 的转义：写成 $MYSQL_ROOT_PASSWORD 会被 compose 提前插值成空
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 40s
+
+  # ------------------------------------------------------------
+  # Redis 7
+  # ------------------------------------------------------------
+  redis:
+    image: redis:7.4-alpine
+    container_name: campus-redis
+    restart: unless-stopped
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+      # 分布式锁的 key 绝不能被淘汰，内存不足时宁可报错
+      - --maxmemory-policy
+      - noeviction
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # ------------------------------------------------------------
+  # 后端（由根目录 Dockerfile 多阶段构建）
+  # ------------------------------------------------------------
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: campus-app
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      DB_URL: "jdbc:mysql://mysql:3306/campus_signup?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true"
+      DB_USERNAME: campus
+      DB_PASSWORD: ${MYSQL_PASSWORD:-campus123}
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      # 生产环境务必通过环境变量覆盖成随机长串（≥32 字节）
+      JWT_SECRET: ${JWT_SECRET:-dev-only-please-override-me-0123456789abcdef}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin12345}
+      TZ: Asia/Shanghai
+    ports:
+      - "8080:8080"
+
+volumes:
+  mysql-data:
+  redis-data:

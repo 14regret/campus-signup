@@ -1,0 +1,109 @@
+.ac {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-line);
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+  box-shadow: var(--shadow-card);
+  transition:
+    transform var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    background-color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+}
+
+.ac:hover {
+  transform: translateY(-2px);
+  background: var(--glass-fill-strong);
+  border-color: var(--glass-line-hover);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* 键盘用户聚焦到「查看详情」时，整张卡片给出可见反馈 */
+.ac:focus-within {
+  border-color: var(--glass-line-hover);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/*
+ * 整卡点击层。
+ * 不用 article 的 onClick：那样键盘无法聚焦、读屏也念不出目标。
+ * 这层透明链接铺满卡片，内部按钮靠 z-index 浮在它上面。
+ */
+.ac__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: var(--radius-lg);
+  /* 覆盖整卡但不参与布局 */
+  display: block;
+}
+
+.ac__overlay:focus-visible {
+  outline: 2px solid rgba(56, 225, 200, 0.55);
+  outline-offset: 2px;
+}
+
+.ac__title {
+  margin: 0;
+  /* 两行高度固定，标题长短不一时卡片底部操作仍然对齐 */
+  min-height: calc(1.35em * 2);
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--text-1);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+.ac__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ac__time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.ac__time svg {
+  flex: none;
+  opacity: 0.8;
+}
+
+.ac__time .mono {
+  font-size: 12.5px;
+  color: var(--text-2);
+  letter-spacing: 0.01em;
+}
+
+.ac__foot {
+  position: relative;
+  /* 必须高于 .ac__overlay，否则按钮点不到 */
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ac:hover {
+    transform: none;
+  }
+}

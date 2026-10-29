@@ -1,0 +1,57 @@
+/*
+ * 设计令牌 —— 与 DESIGN.md 的 frontmatter 一一对应。
+ * 组件里只允许用变量，不允许出现裸色值，换主题时只改这里。
+ */
+:root {
+  /* 背景层 */
+  --ink-900: #07080d;
+  --ink-800: #0c0e16;
+  --ink-700: #131624;
+
+  /* 玻璃面 */
+  --glass-fill: rgba(255, 255, 255, 0.045);
+  --glass-fill-strong: rgba(255, 255, 255, 0.07);
+  --glass-line: rgba(255, 255, 255, 0.1);
+  --glass-line-hover: rgba(255, 255, 255, 0.18);
+  --glass-line-accent: rgba(56, 225, 200, 0.45);
+
+  /* 文字 */
+  --text-1: #f2f4f9;
+  --text-2: #a6aec4;
+  --text-3: #6e768c;
+
+  /* 状态色 */
+  --accent: #38e1c8;
+  --accent-deep: #1faf9c;
+  --violet: #7c6bff;
+  --success: #46d98b;
+  --warning: #ffb454;
+  --danger: #ff5f6d;
+
+  /* 形状 */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  /* 间距 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 40px;
+
+  /* 动效 */
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur: 160ms;
+  --dur-slow: 600ms;
+
+  /* 字体 */
+  --font-sans: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+
+  /* 阴影 */
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 18px 40px -28px rgba(0, 0, 0, 0.9);
+  --shadow-card-hover: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 24px 56px -28px rgba(0, 0, 0, 0.95);
+  --shadow-pop: 0 32px 80px -24px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.08);
+}

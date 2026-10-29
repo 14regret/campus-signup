@@ -1,0 +1,7 @@
+﻿# IDE
+.vscode/
+.idea/
+
+# 本地环境配置
+acl-recovery/
+.dsh/
