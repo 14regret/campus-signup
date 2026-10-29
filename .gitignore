@@ -5,3 +5,10 @@
 # 本地环境配置
 acl-recovery/
 .dsh/
+
+# 构建产物
+**/target/
+**/node_modules/
+**/dist/
+.m2repo/
+.verify/
